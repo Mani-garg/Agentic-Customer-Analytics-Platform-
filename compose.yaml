@@ -1,0 +1,56 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: customer_analytics_api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=production
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - LOG_LEVEL=INFO
+      - DATABASE_URL=postgresql://analytics_app:app_secret_pass@db:5432/analytics_db
+      - AGENT_DATABASE_URL=postgresql://analytics_readonly:ro_secret_pass@db:5432/analytics_db
+      - DATA_DIR=/app/data
+      - MODEL_ARTIFACT_DIR=/app/artifacts/models
+      - REPORT_DIR=/app/artifacts/reports
+      - LLM_PROVIDER=none
+    volumes:
+      - analytics_data:/app/data
+      - analytics_artifacts:/app/artifacts
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/live"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  db:
+    image: postgres:16-alpine
+    container_name: customer_analytics_db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=analytics_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres_master_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql:ro
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d analytics_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  analytics_data:
+  analytics_artifacts:

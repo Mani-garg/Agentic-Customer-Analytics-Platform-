@@ -1,0 +1,93 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "customer-analytics-platform"
+version = "1.0.0"
+description = "End-to-end agentic customer analytics, segmentation, churn prediction, and revenue-recovery simulation platform."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Senior Applied AI & ML Engineering Team"}
+]
+keywords = [
+    "customer-analytics",
+    "rfm-segmentation",
+    "churn-prediction",
+    "xgboost",
+    "langchain",
+    "fastapi",
+    "pyspark",
+    "revenue-recovery"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.28.0",
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.2.0",
+    "sqlalchemy>=2.0.0",
+    "pandas>=2.1.0",
+    "numpy>=1.26.0",
+    "scikit-learn>=1.3.0",
+    "xgboost>=2.0.0",
+    "sqlglot>=23.0.0",
+    "httpx>=0.26.0",
+    "python-dotenv>=1.0.0",
+    "pyarrow>=14.0.0"
+]
+
+[project.optional-dependencies]
+spark = [
+    "pyspark>=3.5.0"
+]
+llm = [
+    "langchain>=0.2.0",
+    "langchain-core>=0.2.0"
+]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.4.0",
+    "mypy>=1.9.0"
+]
+
+[project.scripts]
+customer-analytics = "customer_analytics.main:run_cli"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]
+ignore = ["B008", "E501"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers"
+testpaths = ["tests"]
+pythonpath = ["src"]
+asyncio_mode = "auto"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = false
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true

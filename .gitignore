@@ -1,0 +1,81 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment files and credentials
+*.env
+!.env.example
+*.pem
+*.key
+credentials.json
+
+# Database and SQLite
+*.db
+*.sqlite3
+data/analytics.db*
+
+# Generated data (keep sample directory tracked if needed, raw/processed ignored)
+data/raw/*.csv
+data/processed/*.parquet
+data/processed/*.csv
+!data/sample/.gitkeep
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Artifacts generated during runs (keep models/reports gitkeep)
+artifacts/models/*.ubj
+artifacts/models/*.json
+!artifacts/models/.gitkeep
+artifacts/reports/*.json
+artifacts/reports/*.csv
+!artifacts/reports/.gitkeep
+
+# Logs
+*.log
+logs/

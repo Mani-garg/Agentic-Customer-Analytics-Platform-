@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,spark,llm]"
+
+      - name: Lint and format check with Ruff
+        run: |
+          ruff check src tests scripts
+          ruff format --check src tests scripts
+
+      - name: Type checking with mypy
+        run: |
+          mypy src
+
+      - name: Run automated test suite
+        run: |
+          pytest tests/unit tests/integration tests/security -v --cov=src/customer_analytics --cov-report=term-missing
+
+      - name: End-to-end demo execution test
+        run: |
+          python scripts/generate_sample_data.py --output data/raw/transactions.csv --n-customers 200 --seed 42
+          python scripts/validate_data.py --input data/raw/transactions.csv --report artifacts/reports/test_report.json
+          python scripts/run_pipeline.py --input data/raw/transactions.csv --output data/processed/test_features.parquet
+          python scripts/train_model.py --features data/processed/test_features.parquet --artifact-dir artifacts/models
+          python scripts/evaluate_model.py --artifact-dir artifacts/models --report-dir artifacts/reports
+          python scripts/demo.py
