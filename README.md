@@ -39,7 +39,6 @@ An end-to-end analytics and machine learning decision-support platform that segm
 - [21. Limitations & Future Roadmap](#21-limitations--future-roadmap)
 - [22. Troubleshooting](#22-troubleshooting)
 - [23. Contributing, License & Author](#23-contributing-license--author)
-- [24. Resume-Ready Highlights](#24-resume-ready-highlights)
 
 ---
 
@@ -148,7 +147,7 @@ flowchart TD
 
 ```
 .
-├── README.md                           # Master documentation & portfolio overview
+├── README.md                           # Project documentation and architecture guide
 ├── pyproject.toml                      # Build metadata, dependencies, tool configurations
 ├── .env.example                        # Documented environment variable template
 ├── .gitignore                          # Git exclusion rules
@@ -520,14 +519,4 @@ Measured on a deterministic synthetic benchmark dataset ($n = 500$ customers, se
 
 - **License**: MIT License. See [LICENSE](LICENSE) for terms.
 - **Contributions**: Contributions welcome! Review [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
-- **Authors**: Senior Machine Learning & Applied AI Engineering Team.
-
----
-
-## 24. Resume-Ready Highlights
-
-*(Editable template bullets based on verified project deliverables)*:
-
-- **End-to-End Analytics & ML Platform**: Architected and delivered a modular customer analytics platform in Python, combining PySpark batch transaction aggregation, RFM customer segmentation, and an XGBoost churn classifier achieving **0.93 recall** and **0.85 PR-AUC** via validation threshold tuning.
-- **Guarded Agentic Interface**: Engineered a secure natural-language analytics agent using LangChain and `sqlglot` AST parsing, enforcing strict read-only execution, table allow-listing, statement timeouts, and a deterministic query router with 0 external LLM dependencies.
-- **Revenue Simulation & Production Delivery**: Developed a deterministic what-if retention discount simulator estimating net incremental recovery and sensitivity, packaged with a versioned FastAPI REST service, **47 automated tests** (unit, integration, adversarial injection), and multi-stage Docker containerization.
+- **Author**: Mani Garg
